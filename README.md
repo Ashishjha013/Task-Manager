@@ -210,7 +210,7 @@ npm run dev
 
 ## ✨ Author
 **Ashish Kumar Jha**  
-📍 India | 💻 Aspiring Software Engineer
+📍 India | 💻 Backend Engineer
 
 ---
 
@@ -229,6 +229,7 @@ Feel free to fork and open PRs. Add clear unit/integration tests for controllers
 ---
 
 *Generated for: Ashish Jha — Task Manager*
+
 
 
 
