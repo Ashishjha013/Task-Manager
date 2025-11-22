@@ -1,170 +1,196 @@
-# Task Manager API
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                              🚀 TASK MANAGER API                             ║
+║         Production-grade backend engineered for real-world workloads.        ║
+╚══════════════════════════════════════════════════════════════════════════════╝
 
-Production-ready backend built with **Node.js**, **Express**, **MongoDB (Atlas)**, **Redis**, and **Cloudinary**.
+## 🧰 Tech Stack
 
-Live Demo: **[https://task-manager-6bu9.onrender.com](https://task-manager-6bu9.onrender.com)**
-Repo: [https://github.com/Ashishjha013/Task-Manager](https://github.com/Ashishjha013/Task-Manager)
-
----
-
-## 🚀 Highlights (what this project shows)
-
-* Robust JWT auth: short-lived access tokens + refresh tokens (httpOnly cookies) + logout
-* Role-based access control (user / admin)
-* Task CRUD with: pagination, filtering, text-search, aggregation (stats)
-* Mongoose refs + virtual populate (User ↔ Task)
-* File uploads (avatars) using Multer + Cloudinary
-* Redis caching for heavy reads (task listing & stats)
-* Security hardening: Helmet, CORS, rate-limiting, xss-clean, express-mongo-sanitize, hpp
-* Centralized logging (Winston) + request logging (morgan)
-* Production-ready patterns (error handling, indexes, input validation)
+![Node.js](https://img.shields.io/badge/Node.js-18+-green?logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-5-black?logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-brightgreen?logo=mongodb&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-Caching-red?logo=redis&logoColor=white)
+![JWT](https://img.shields.io/badge/Auth-JWT-orange?logo=jsonwebtokens&logoColor=white)
+![Cloudinary](https://img.shields.io/badge/Cloud-Cloudinary-lightblue?logo=cloudinary&logoColor=white)
+![Multer](https://img.shields.io/badge/Uploads-Multer-yellow?logo=multer&logoColor=black)
+![Render](https://img.shields.io/badge/Deployed%20On-Render-purple?logo=render&logoColor=white)
+![Winston](https://img.shields.io/badge/Logging-Winston-blue?logo=winston&logoColor=white)
+![Morgan](https://img.shields.io/badge/HTTP%20Logs-Morgan-green?logo=npm&logoColor=white)
+![Security](https://img.shields.io/badge/Security-Helmet%20%7C%20XSS%20%7C%20Sanitize-critical?logo=apache&logoColor=white)
 
 ---
 
-## 🔧 Quick Start (local)
+## 🌐 Live Demo
 
-1. Clone
+🔗 **Live URL:** https://task-manager-6bu9.onrender.com  
+📁 **GitHub Repo:** https://github.com/Ashishjha013/Task-Manager
 
+---
+
+## 📸 Screenshots
+
+### 🔐 Login (Access Token + Refresh Cookie)
+> Replace this after uploading **assets/login.png**
+```
+![Login Screenshot](assets/login.png)
+```
+
+### 📊 Tasks (Redis Cached Response)
+> Replace this after uploading **assets/tasks_cached.png**
+```
+![Tasks Cached Screenshot](assets/tasks_cached.png)
+```
+
+---
+
+## 🔥 Highlights
+
+### 🔐 Authentication & Authorization
+- Short-lived **Access Tokens**
+- Long-lived **Refresh Tokens** (httpOnly cookies)
+- Stored refresh tokens in DB (session pattern)
+- Admin + User role-based authorization
+- Full secure lifecycle: register → login → refresh → logout
+
+### 📝 Task Management
+- CRUD  
+- Filtering, sorting, pagination  
+- Full-text search  
+- Aggregation analytics (`/stats`)  
+- Owner/admin access control  
+- Virtual populate (User ↔ Task)
+
+### ⚡ Performance With Redis
+- Cached listing and stats  
+- User-scoped and filter-scoped keys  
+- Automatic invalidation on create/update/delete  
+- Config-driven TTL
+
+### ☁️ Cloud Features
+- Avatar uploads using Multer + Cloudinary  
+- Cloud-stored URLs only  
+- Clean delete pipeline  
+
+### 🛡 Security
+- Helmet, CORS, HPP  
+- xss-clean  
+- express-mongo-sanitize  
+- Strict cookies  
+- Rate limiting
+
+### 📊 Observability
+- Winston structured logger  
+- Morgan request logs  
+- Central error handler with consistent JSON  
+
+---
+
+## 🏗 High-Level Architecture
+
+```
+[Client]
+   |
+   v
+HTTPS
+   |
+[Express Server]
+   ├── Auth Layer (JWT)
+   ├── Task Layer
+   ├── File Upload Layer
+   ├── Redis Cache
+   ├── MongoDB Atlas
+   └── Cloudinary
+        |
+   Winston + Morgan Logs
+```
+
+---
+
+## 📡 Core Endpoints
+
+### Auth
+- POST `/api/users/register`
+- POST `/api/users/login`
+- POST `/api/users/refresh`
+- POST `/api/users/logout`
+- GET `/api/users/profile`
+- GET `/api/users/admin`
+
+### Tasks
+- POST `/api/tasks`
+- GET `/api/tasks`
+- GET `/api/tasks/stats`
+- GET `/api/tasks/:id`
+- PUT `/api/tasks/:id`
+- DELETE `/api/tasks/:id`
+
+### Avatar
+- POST `/api/users/avatar`
+- DELETE `/api/users/avatar`
+
+---
+
+## ⚡ Quick Start (Local)
+
+### 1️⃣ Clone
 ```bash
 git clone https://github.com/Ashishjha013/Task-Manager.git
 cd Task-Manager
 ```
 
-2. Install
-
+### 2️⃣ Install
 ```bash
 npm install
 ```
 
-3. Create `.env` (copy `.env.example` if present) and set the following values:
+### 3️⃣ Environment Variables
 
 ```
 PORT=8080
 NODE_ENV=development
+
 MONGO_URI=your_mongodb_atlas_uri
-JWT_ACCESS_SECRET=your_access_secret
+
+JWT_ACCESS_SECRET=your_secret
 JWT_REFRESH_SECRET=your_refresh_secret
+
 CLOUDINARY_CLOUD_NAME=...
 CLOUDINARY_API_KEY=...
 CLOUDINARY_API_SECRET=...
-REDIS_URL=redis://localhost:6379
+
+REDIS_URL=your_redis_url
 REDIS_TTL_SECONDS=300
+
 FRONTEND_URL=http://localhost:3000
 ```
 
-4. Run locally
-
+### 4️⃣ Run
 ```bash
 npm run dev
-# or
-npm start
-```
-
-Hit `GET /` to verify: `http://localhost:8080/`
-
----
-
-## 📡 Live deployment
-
-Live base URL: **[https://task-manager-6bu9.onrender.com](https://task-manager-6bu9.onrender.com)**
-
-Smoke test sequence (use Postman):
-
-1. POST `/api/users/register` → receive `accessToken` + `refreshToken` cookie
-2. POST `/api/users/login` → receive `accessToken`
-3. GET `/api/users/profile` (Authorization: `Bearer <accessToken>`) → get profile
-4. POST `/api/tasks` (with Bearer header) → create task
-5. GET `/api/tasks` → list + cached responses
-6. POST `/api/users/avatar` (multipart/form-data) → upload avatar to Cloudinary
-
----
-
-## 🔌 Environment variables (explanation)
-
-* **MONGO_URI** — MongoDB Atlas connection string (required for production)
-* **REDIS_URL** — Redis connection string (Upstash or local) used for caching
-* **JWT_ACCESS_SECRET** — secret used for access tokens (short-lived)
-* **JWT_REFRESH_SECRET** — secret used for refresh tokens (long-lived)
-* **CLOUDINARY_*** — Cloudinary credentials for storing avatars
-* **PORT** — port server listens on
-* **FRONTEND_URL** — allowed origin for CORS in production
-
----
-
-## 🗂 API - Core endpoints (short)
-
-### Auth
-
-* `POST /api/users/register` — register new user (returns accessToken)
-* `POST /api/users/login` — login (returns accessToken)
-* `POST /api/users/refresh` — refresh access token (uses httpOnly cookie)
-* `POST /api/users/logout` — logout (clears refresh token)
-* `GET /api/users/profile` — protected profile route
-* `GET /api/users/admin` — admin-only test route
-
-### Tasks
-
-* `POST /api/tasks` — create task (protected)
-* `GET /api/tasks` — list tasks (protected) — supports `page`, `limit`, `status`, `priority`, `q` (text search), `sort`
-* `GET /api/tasks/:id` — get single task (populates owner)
-* `PUT /api/tasks/:id` — update task (owner or admin)
-* `DELETE /api/tasks/:id` — delete task (owner or admin)
-* `GET /api/tasks/stats` — aggregation: task counts by status
-
-### Avatar
-
-* `POST /api/users/avatar` — upload profile image (multipart/form-data, field `avatar`)
-* `DELETE /api/users/avatar` — delete avatar
-
----
-
-## ✅ Production Notes & Best Practices used
-
-* **Indexes**: `User.email` unique index prevents duplicates; `Task` has `owner + status` compound index and text index on `title + description` for search performance.
-* **Race conditions**: Registration relies on unique index + error handling for `E11000` duplicate-key errors.
-* **Auth**: Access tokens for short-lived API calls and refresh tokens stored in DB & httpOnly cookies — safer against XSS.
-* **Caching**: Redis for hot endpoints to reduce database load; keys are constructed per-user + filters to keep cache scoped.
-* **Sanitization**: express-mongo-sanitize and xss-clean protect against NoSQL injection and XSS in user-supplied text.
-* **Logging**: Winston writes structured logs; morgan logs HTTP requests.
-
----
-
-## 🧭 Architecture (high-level)
-
-```
-[Client (React/Any)]
-   |
-   | HTTPS
-   v
-[Render/Railway (Express app)]
-   |- Auth (JWT access tokens)
-   |- Refresh token cookie endpoints
-   |- Routes: /api/users, /api/tasks
-   |- Multer -> Cloudinary (avatar uploads)
-   |- Redis (cache) <-> controllers
-   |- MongoDB Atlas (persistent data)
-   |- Winston/morgan -> logs
 ```
 
 ---
 
-## 🧪 Testing & Postman
+## 🌐 Production Smoke Test
 
-Use Postman. Create an environment with variables:
-
-* `BASE_URL` = `https://task-manager-6bu9.onrender.com` (or local)
-* `TOKEN` = set after login
-* `TASK_ID` = set after list/create
-
-Call the endpoints in order described in "Live deployment". For protected endpoints add header:
-
-```
-Authorization: Bearer {{TOKEN}}
-```
-
-For `/api/users/refresh` ensure Postman sends cookies (enable the cookie jar) so the httpOnly cookie is sent.
+1. Register  
+2. Login  
+3. Hit `/profile`  
+4. Create task  
+5. List tasks → validate **cached**: true  
+6. Hit `/stats`  
+7. Upload avatar  
 
 ---
+
+## 🎯 Engineering Rationale
+
+- Access tokens protect short sessions  
+- Refresh tokens allow session renewal without relogin  
+- DB-stored refresh tokens allow revocation  
+- Redis reduces DB load and improves response latency  
+- Cloudinary avoids binary storage in your DB  
+- Compound Mongo indexes improve query performance  
+- Centralized error handler guarantees consistent DX  
 
 ---
 
@@ -189,3 +215,4 @@ Feel free to fork and open PRs. Add clear unit/integration tests for controllers
 ---
 
 *Generated for: Ashish Jha — Task Manager*
+
